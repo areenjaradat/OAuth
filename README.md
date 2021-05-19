@@ -4,13 +4,11 @@
 
 ### Links and Resources
 
-- [ci/cd](https://github.com/areenjaradat/bearer-auth/actions) (GitHub Actions)
+- [ci/cd](https://github.com/areenjaradat/OAuth/actions) (GitHub Actions)
 
-- [Repo link](https://github.com/areenjaradat/bearer-auth)
+- [Repo link](https://github.com/areenjaradat/OAuth)
 
-- [PR link](https://github.com/areenjaradat/bearer-auth/pulls)
-
-- [main Deployed heroku](https://areen-auth-api-server.herokuapp.com)
+- [PR link](https://github.com/areenjaradat/OAuth/pulls)
 
 ### Setup
 
@@ -35,11 +33,28 @@
 - How do you run tests?
    `npm test`
 
+.env file
+
+```PORT=3000
+SECRET=secret
+MONGODB_URI=mongodb+srv://admin:admin@api-server.wt1ri.mongodb.net/oauth
+let CLIENT_ID = process.env.CLIENT_ID || '968394370633263';
+let CLIENT_SECRET = process.env.CLIENT_SECRET || 'f45b61bf5d51f2f43fdc62d54aa97b7e';
+redirect_uri:'http://localhost:3000/oauth'
+```
+
+Facebook Test Account :
+ email: eaaosgimuz_1621441942@tfbnw.net
+ Password: Admin1234
+
+ until now it working locally
+
 #### UML
 
 ![uml](assest/uml7.png)
 
 ![uml](assest/uml8.png)
 
-![uml](assest/wrrc8.png)
+![uml](assest/oauth.png)
 
+![uml](assest/wrrc8.png)

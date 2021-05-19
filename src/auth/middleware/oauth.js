@@ -37,7 +37,7 @@ async function exchangeCodeWithToken(code) {
   try {
     const tokenResponse = await superagent.post(tokenUrl).send({
       client_id:CLIENT_ID,
-      redirect_uri:'https://areen-oauth.herokuapp.com/oauth',
+      redirect_uri:'http://localhost:3000/oauth',
       client_secret:CLIENT_SECRET,
       code:code,
     });
