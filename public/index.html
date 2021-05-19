@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    <a id="oauth">Github</a>
+    <a id="oauth">FaceBook Login</a>
 </body>
+<script>
+    const URL = `https://www.facebook.com/v10.0/dialog/oauth?client_id=968394370633263&redirect_uri=https://areen-oauth.herokuapp.com/oauth`;
+
+    const aEl = document.getElementById('oauth');
+    aEl.setAttribute('href', URL);
+</script>
 
 </html>

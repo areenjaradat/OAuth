@@ -7,7 +7,7 @@ const User = require('./models/users.js');
 const basicAuth = require('./middleware/basic.js');
 const bearerAuth = require('./middleware/bearer.js');
 const permissions = require('./middleware/acl.js');
-
+const oAuthMiddleware = require('./middleware/oauth');
 authRouter.post('/signup', async (req, res, next) => {
   try {
     let user = new User(req.body);
@@ -38,6 +38,13 @@ authRouter.get('/users', bearerAuth, permissions('delete'), async (req, res, nex
 
 authRouter.get('/secret', bearerAuth, async (req, res, next) => {
   res.status(200).send('Welcome to the secret area');
+});
+
+authRouter.get('/oauth', oAuthMiddleware , (req, res)=> {
+  res.cookie(req.token);
+  res.set(req.token);
+  res.status(201);
+  res.send(req.token);
 });
 
 module.exports = authRouter;

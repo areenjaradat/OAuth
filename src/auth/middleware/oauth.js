@@ -3,7 +3,7 @@
 
 // should be in dotenv.
 const superagent = require('superagent');
-const userModel = require('../models/user');
+const userModel = require('../models/users');
 const jwt = require('jsonwebtoken');
 
 let CLIENT_ID = process.env.CLIENT_ID || '968394370633263';
@@ -12,7 +12,7 @@ let CLIENT_SECRET = process.env.CLIENT_SECRET || 'f45b61bf5d51f2f43fdc62d54aa97b
 
 let SECRET = process.env.SECRET || 'mysecret';
 
-let tokenUrl = 'https://graph.facebook.com/v10.0/oauth/access_token?';
+let tokenUrl = `https://graph.facebook.com/v10.0/oauth/access_token`;
 let userUrl = 'https://graph.facebook.com/me';
 
 module.exports = async (req, res, next) => {
@@ -37,7 +37,7 @@ async function exchangeCodeWithToken(code) {
   try {
     const tokenResponse = await superagent.post(tokenUrl).send({
       client_id:CLIENT_ID,
-      redirect_uri:'http://localhost:3000/oauth',
+      redirect_uri:'https://areen-oauth.herokuapp.com/oauth',
       client_secret:CLIENT_SECRET,
       code:code,
     });
@@ -50,26 +50,48 @@ async function exchangeCodeWithToken(code) {
 
 async function exchangeTokenWithUserInfo(token) {
   try {
-    const userInfo = await superagent.get(userUrl).set({
-      'Authorization': `token ${token}`,
-      'User-Agent': 'Rawan/1.0',
-    });
-    return userInfo.body;
+    const userInfo = await superagent.get(userUrl).set('Authorization', `Bearer ${token}`).set('Accept', 'application/json');
+    const user=userInfo.body;
+    console.log('user>>>>>>',user);
+    return user;
   } catch(err) {
-    console.log(err);
+    console.log('exchangeTokenWithUserInfo>>>>>>>>>>>>',err);
   }
 }
 
 async function getLocalUser(userObj) {
   try {
-    let userRecord = {
-      username: userObj.login,
-      password: 'oauth', 
+    // console.log(userObj);
+    // let userRecord = {
+    //   username: userObj.name,
+    //   password: 'oauth', 
+    // };
+    // let newUser = new userModel(userRecord);
+    // let user = await newUser.save();
+    // let token = jwt.sign({username: user.username}, SECRET);
+    // return [user, token];
+
+
+    const userRecord = {
+      username: userObj.name,
+      password: 'oauthpassword',
     };
-    let newUser = new userModel(userRecord);
-    let user = await newUser.save();
-    let token = jwt.sign({username: user.username}, SECRET);
-    return [user, token];
+    const username = userRecord.username;
+    const user = await userModel.findOne({ username });
+    if (user) {
+      const output = {
+        user: user.username,
+        token: user.token,
+      };
+      return output;
+    } else {
+      const newUser = new userModel(userRecord);
+      const userDoc = await newUser.save();
+      let token = jwt.sign({username: userDoc.username}, SECRET);
+      return [user, token];
+     
+
+    }
   }catch(err) {
     console.log(err);
   }
