@@ -14,13 +14,14 @@ const v2Routes = require('./api/routes/v2.js');
 const authRoutes = require('./auth/routes.js');
 
 
+
 const app = express();
 
 app.use(express.json());
 
 app.use(logger);
 
-
+app.use(express.static('/public/'));
 app.use(cors());
 app.use(morgan('dev'));
 
@@ -29,6 +30,13 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1', v1Routes);
 app.use('/api/v2', v2Routes);
+
+app.get('/',(req,res)=>{
+  res.sendFile(__dirname+'/public/index.html');
+  
+  // res.sendFile(__dirname + '/public/index.html')
+});
+
 // Routes
 app.use(authRoutes);
 app.use('*', notFoundHandler);

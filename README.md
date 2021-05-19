@@ -10,6 +10,8 @@
 
 - [PR link](https://github.com/areenjaradat/OAuth/pulls)
 
+- [herokuapp](https://areen-oauth.herokuapp.com)
+
 ### Setup
 
 #### `.env` requirements
@@ -41,13 +43,12 @@ MONGODB_URI=mongodb+srv://admin:admin@api-server.wt1ri.mongodb.net/oauth
 let CLIENT_ID = process.env.CLIENT_ID || '968394370633263';
 let CLIENT_SECRET = process.env.CLIENT_SECRET || 'f45b61bf5d51f2f43fdc62d54aa97b7e';
 redirect_uri:'http://localhost:3000/oauth'
+redirect_uri:'https://areen-oauth.herokuapp.com/oauth'
 ```
 
 Facebook Test Account :
  email: eaaosgimuz_1621441942@tfbnw.net
  Password: Admin1234
-
- until now it working locally
 
 #### UML
 
