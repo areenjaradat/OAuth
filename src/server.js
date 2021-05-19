@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -7,7 +9,7 @@ const morgan = require('morgan');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 
-const User = require('./auth/models/users')
+const User = require('./auth/models/users');
 
 
 const notFoundHandler = require('./error-handlers/404.js');
@@ -34,12 +36,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Login with Facebook
 passport.use(new FacebookStrategy({
-  clientID: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
+  clientID: process.env.CLIENT_ID || '959008094901801',
+  clientSecret: process.env.CLIENT_SECRET || 'bcfd937b302cfda6cb0bc6bc208995ab',
   callbackURL: 'http://localhost:3000/auth/facebook/secrets',
 },
-function(accessToken, refreshToken, profile, cb) {
-  User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+async function(accessToken, refreshToken, profile, cb) {
+  await User.findOrCreate({ facebookId: profile.id }, function (err, user) {
     return cb(err, user);
   });
 },
