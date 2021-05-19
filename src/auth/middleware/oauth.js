@@ -37,7 +37,7 @@ async function exchangeCodeWithToken(code) {
   try {
     const tokenResponse = await superagent.post(tokenUrl).send({
       client_id:CLIENT_ID,
-      redirect_uri:'http://localhost:3000/oauth',
+      redirect_uri:'https://areen-oauth.herokuapp.com/oauth',
       client_secret:CLIENT_SECRET,
       code:code,
     });
@@ -83,14 +83,12 @@ async function getLocalUser(userObj) {
         user: user.username,
         token: user.token,
       };
-      return output;
+      return [user.username, user.token];
     } else {
-      const newUser = new userModel(userRecord);
+      const newUser = userModel(userRecord);
       const userDoc = await newUser.save();
       let token = jwt.sign({username: userDoc.username}, SECRET);
       return [user, token];
-     
-
     }
   }catch(err) {
     console.log(err);
