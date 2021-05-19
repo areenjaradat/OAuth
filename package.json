@@ -1,0 +1,33 @@
+{
+  "name": "oauth",
+  "version": "1.0.0",
+  "description": "## Author: areenjaradat",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest --coverage --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/areenjaradat/OAuth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/areenjaradat/OAuth/issues"
+  },
+  "homepage": "https://github.com/areenjaradat/OAuth#readme",
+  "dependencies": {
+    "@code-fellows/supergoose": "^1.1.0",
+    "base-64": "^1.0.0",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1",
+    "jest": "^26.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.10",
+    "morgan": "^1.10.0"
+  }
+}
