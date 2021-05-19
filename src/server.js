@@ -4,6 +4,11 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 
+const passport = require('passport');
+const FacebookStrategy = require('passport-facebook').Strategy;
+
+const User = require('./auth/models/users')
+
 
 const notFoundHandler = require('./error-handlers/404.js');
 const errorHandler = require('./error-handlers/500.js');
@@ -27,10 +32,38 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Login with Facebook
+passport.use(new FacebookStrategy({
+  clientID: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  callbackURL: 'http://localhost:3000/auth/facebook/secrets',
+},
+function(accessToken, refreshToken, profile, cb) {
+  User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+    return cb(err, user);
+  });
+},
+));
+
+app.get('/', (req, res) => {
+  res.status(200).send('You are at home!!!!');
+});
+
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+
+app.get('/auth/facebook/secrets',
+  passport.authenticate('facebook', { failureRedirect: '/signin' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
 app.use('/api/v1', v1Routes);
 app.use('/api/v2', v2Routes);
 // Routes
 app.use(authRoutes);
+
 app.use('*', notFoundHandler);
 app.use(errorHandler);
 

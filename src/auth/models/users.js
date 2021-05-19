@@ -8,6 +8,7 @@ const users = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, required: true, default: 'user', enum: ['user', 'editor', 'admin'] },
+  facebookId: {type: String},
 });
 // }, { toObject: { getters: true } }); // What would this do if we use this instead of just });
 
